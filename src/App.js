@@ -1,23 +1,36 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Data from './Utils/Data';
+import Card from './Components/Card';
+import Buttons from './Components/Button';
+
 import './App.css';
 
-function App() {
+
+const App = () => {
+  const [item, setItem] = useState(Data);
+
+  const menuItems = [...new Set(Data.map((Val) => Val.category))];
+
+  const filterItem = (curcat) => {
+    const newItem = Data.filter((newVal) => {
+      return newVal.category === curcat;
+    });
+    setItem(newItem);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+        <div className='container-fluid'>
+          <div className='row'>
+            <h1 className='text-3xl text-center font-bold'>Our Menu</h1>
+            <Buttons 
+              filterItem={filterItem}
+              setItem={setItem}
+              menuItems={menuItems}
+            />
+            <Card item={item} />
+          </div>
+        </div>
     </div>
   );
 }
